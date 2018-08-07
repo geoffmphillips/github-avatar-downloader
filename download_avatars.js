@@ -4,6 +4,7 @@ var dotenv = require('dotenv').config();
 var downloadImages = require('./downloadImages.js');
 
 var args = process.argv.slice(2);
+var token = process.env.GITHUB_TOKEN;
 var repoOwner = args[0];
 var repoName = args[1];
 
@@ -23,7 +24,7 @@ function getRepoContributors(owner, name, cb) {
     url: "https://api.github.com/repos/" + owner + "/" + name + "/contributors",
     headers: {
       'User-Agent': 'request',
-      'Authorization': secrets.GITHUB_TOKEN
+      'Authorization': token
     }
   };
 

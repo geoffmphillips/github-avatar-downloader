@@ -1,5 +1,4 @@
-/avatars
-secrets.js
+secrets.env
 
 # Logs
 logs
