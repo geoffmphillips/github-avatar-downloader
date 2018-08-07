@@ -7,6 +7,10 @@ var repoName = process.argv[3];
 
 
 function getRepoContributors(owner, name, cb) {
+  if (owner === undefined || name === undefined) {
+    console.log("Please enter a valid repo owner and name");
+    return;
+  }
   var options = {
     url: "https://api.github.com/repos/" + owner + "/" + name + "/contributors",
     headers: {
