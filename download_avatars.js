@@ -1,14 +1,21 @@
 var request = require('request');
 var secrets = require('./secrets.js');
+var dotenv = require('dotenv').config();
 var downloadImages = require('./downloadImages.js');
 
-var repoOwner = process.argv[2];
-var repoName = process.argv[3];
+var args = process.argv.slice(2);
+var repoOwner = args[0];
+var repoName = args[1];
 
 
 function getRepoContributors(owner, name, cb) {
   if (owner === undefined || name === undefined) {
     console.log("Please enter a valid repo owner and name");
+    return;
+  }
+
+  if (args.length > 2) {
+    console.log("Too many words! Please only enter a repo owner and repo name.");
     return;
   }
 
