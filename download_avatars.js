@@ -2,15 +2,20 @@ var request = require('request');
 var secrets = require('./secrets.js');
 var fs = require('fs');
 
+var repoOwner = process.argv[2];
+var repoName = process.argv[3];
 
-function getRepoContributors(repoOwner, repoName, cb) {
+
+function getRepoContributors(owner, name, cb) {
   var options = {
-    url: "https://api.github.com/repos/" + repoOwner + "/" + repoName + "/contributors",
+    url: "https://api.github.com/repos/" + owner + "/" + name + "/contributors",
     headers: {
       'User-Agent': 'request',
       'Authorization': secrets.GITHUB_TOKEN
     }
   };
+
+  var repURL = options.url;
 
   request(options, function(err, res, body) {
     var parsedJSON = JSON.parse(body);
@@ -30,7 +35,7 @@ function downloadImageByURL(url, filePath) {
 }
 
 
-getRepoContributors("jquery", "jquery", function(err, result) {
+getRepoContributors(repoOwner, repoName, function(err, result) {
   if (err) {
     console.log("Sorry there was an error");
   }
