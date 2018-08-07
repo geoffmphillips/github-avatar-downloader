@@ -4,7 +4,6 @@ var fs = require('fs');
 
 
 function getRepoContributors(repoOwner, repoName, cb) {
-
   var options = {
     url: "https://api.github.com/repos/" + repoOwner + "/" + repoName + "/contributors",
     headers: {
@@ -35,9 +34,8 @@ getRepoContributors("jquery", "jquery", function(err, result) {
     console.log("Sorry there was an error");
   }
   var parsedJSON = JSON.parse(result);
-  parsedJSON.forEach(function(obj) {
-    console.log("URLs: ", obj.avatar_url);
+  parsedJSON.forEach(function(obj, index) {
+    var path = "avatars/" + obj.login + ".jpg";
+    downloadImageByURL("https://api.github.com/repos/jquery/jquery/contributors", path);
   });
 });
-
-downloadImageByURL("https://avatars2.githubusercontent.com/u/2741?v=3&s=466", "avatars/kvirani.jpg");
