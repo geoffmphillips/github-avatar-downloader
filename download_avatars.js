@@ -11,6 +11,7 @@ function getRepoContributors(owner, name, cb) {
     console.log("Please enter a valid repo owner and name");
     return;
   }
+
   var options = {
     url: "https://api.github.com/repos/" + owner + "/" + name + "/contributors",
     headers: {
@@ -18,8 +19,6 @@ function getRepoContributors(owner, name, cb) {
       'Authorization': secrets.GITHUB_TOKEN
     }
   };
-
-  var repURL = options.url;
 
   request(options, function(err, res, body) {
     var parsedJSON = JSON.parse(body);
@@ -45,6 +44,6 @@ getRepoContributors(repoOwner, repoName, function(err, result) {
   }
   result.forEach(function(obj) {
     var path = "avatars/" + obj.login + ".jpg";
-    downloadImageByURL("https://api.github.com/repos/jquery/jquery/contributors", path);
+    downloadImageByURL(obj.avatar_url, path);
   });
 });
