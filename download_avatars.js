@@ -1,6 +1,6 @@
 var request = require('request');
 var secrets = require('./secrets.js');
-var fs = require('fs');
+var downloadImages = require('./downloadImages.js');
 
 var repoOwner = process.argv[2];
 var repoName = process.argv[3];
@@ -26,24 +26,13 @@ function getRepoContributors(owner, name, cb) {
   });
 }
 
-function downloadImageByURL(url, filePath) {
-  request.get(url)
-          .on('error', function(err) {
-            throw err;
-          })
-          .pipe(fs.createWriteStream(filePath))
-          .on('finish', function () {
-            console.log("DOWNLOAD COMPLETE");
-          });
-}
-
-
 getRepoContributors(repoOwner, repoName, function(err, result) {
   if (err) {
     console.log("Sorry there was an error");
   }
   result.forEach(function(obj) {
     var path = "avatars/" + obj.login + ".jpg";
-    downloadImageByURL(obj.avatar_url, path);
+    var downloadURL = obj.avatar_url;
+    downloadImages(downloadURL, path);
   });
 });
