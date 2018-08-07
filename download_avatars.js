@@ -13,7 +13,8 @@ function getRepoContributors(repoOwner, repoName, cb) {
   };
 
   request(options, function(err, res, body) {
-    cb(err, body);
+    var parsedJSON = JSON.parse(body);
+    cb(err, parsedJSON);
   });
 }
 
@@ -33,8 +34,7 @@ getRepoContributors("jquery", "jquery", function(err, result) {
   if (err) {
     console.log("Sorry there was an error");
   }
-  var parsedJSON = JSON.parse(result);
-  parsedJSON.forEach(function(obj, index) {
+  result.forEach(function(obj) {
     var path = "avatars/" + obj.login + ".jpg";
     downloadImageByURL("https://api.github.com/repos/jquery/jquery/contributors", path);
   });
